@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="utf-8"/>
+    <!-- https://www.w3schools.com/css/css_rwd_viewport.asp -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        #gameArea {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border: 1px solid #336699;
+        }
+        .singleField {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            float: left;
+            border: 1px solid #336699;
+            box-sizing: border-box;
+        }
+        .markedRed {
+            background-color: #ff9a9a;
+            box-sizing: border-box;
+        }
+        .markedBlue {
+            background-color: #b6caff;
+            box-sizing: border-box;
+        }
+
+        #winner {
+            position: absolute;
+            top: 170px;
+            width: 105px;
+            height: 30px;
+            box-sizing: border-box;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="gameArea"></div>
+    <div id="winner"></div>
+
+    <script>
+        'use strict';
+
+        var TicTacToe = {
+            myFieldElements: [],
+            counter: 0,
+            outputWinner: function(theWinner, winnerFields){
+                let andTheWinnerIs = theWinner.split('marked')[1];
+                document.getElementById('winner').innerHTML = 'Winner is ' + andTheWinnerIs;
+
+                // Highlight winnerfields
+                let theWinnerFields = winnerFields.split('.');
+
+                document.getElementById('markedId_' + theWinnerFields[0]).style.border = '3px solid red';
+                document.getElementById('markedId_' + theWinnerFields[1]).style.border = '3px solid red';
+                document.getElementById('markedId_' + theWinnerFields[2]).style.border = '3px solid red';
+            },
+            checkGameState: function(){
+                const thisModule = this;
+                let gotState = false;
+                let winnerFields = '';
+
+                for (let i=0; i<9; i++){
+                    // wenn drei Felder nebeneinander die gleiche Farbe haben oder
+                    // wenn 1 5 9 oder
+                    // wenn 3 5 7
+
+                    // 1 2 3 | ROW 1
+                    if( thisModule.myFieldElements[0] == thisModule.myFieldElements[1] && 
+                        thisModule.myFieldElements[0] == thisModule.myFieldElements[2] && 
+                        typeof thisModule.myFieldElements[0] != 'undefined' && 
+                        typeof thisModule.myFieldElements[1] != 'undefined' && 
+                        typeof thisModule.myFieldElements[2] != 'undefined' && 
+                        gotState == false){
+
+                        gotState = true;
+                        winnerFields = '0.1.2';
+                        thisModule.outputWinner(thisModule.myFieldElements[0], winnerFields);
+                    }
+                    // 4 5 6 | ROW 2
+                    if( thisModule.myFieldElements[3] == thisModule.myFieldElements[4] && 
+                        thisModule.myFieldElements[3] == thisModule.myFieldElements[5] &&
+                        typeof thisModule.myFieldElements[3] != 'undefined' && 
+                        typeof thisModule.myFieldElements[4] != 'undefined' && 
+                        typeof thisModule.myFieldElements[5] != 'undefined' && 
+                        gotState == false){
+
+                        gotState = true;
+                        winnerFields = '3.4.5';
+                        thisModule.outputWinner(thisModule.myFieldElements[3], winnerFields);
+                    }
+                    // 7 8 9 | ROW 3
+                    if( thisModule.myFieldElements[6] == thisModule.myFieldElements[7] && 
+                        thisModule.myFieldElements[6] == thisModule.myFieldElements[8] &&
+                        typeof thisModule.myFieldElements[6] != 'undefined' && 
+                        typeof thisModule.myFieldElements[7] != 'undefined' && 
+                        typeof thisModule.myFieldElements[8] != 'undefined' && 
+                        gotState == false){
+
+                        gotState = true;
+                        winnerFields = '6.7.8';
+                        thisModule.outputWinner(thisModule.myFieldElements[6], winnerFields);
+                    }
+
+
+
+                    // 1 4 7 | COLUMN 1
+                    if( thisModule.myFieldElements[0] == thisModule.myFieldElements[3] && 
+                        thisModule.myFieldElements[0] == thisModule.myFieldElements[6] && 
+                        typeof thisModule.myFieldElements[0] != 'undefined' && 
+                        typeof thisModule.myFieldElements[3] != 'undefined' && 
+                        typeof thisModule.myFieldElements[6] != 'undefined' && 
+                        gotState == false){
+
+                        gotState = true;
+                        winnerFields = '0.3.6';
+                        thisModule.outputWinner(thisModule.myFieldElements[0], winnerFields);
+                    }
+                    // 2 5 8 | COLUMN 2
+                    if( thisModule.myFieldElements[1] == thisModule.myFieldElements[4] &&
+                        thisModule.myFieldElements[1] == thisModule.myFieldElements[7] && 
+                        typeof thisModule.myFieldElements[1] != 'undefined' && 
+                        typeof thisModule.myFieldElements[4] != 'undefined' && 
+                        typeof thisModule.myFieldElements[7] != 'undefined' && 
+                        gotState == false){
+
+                        gotState = true;
+                        winnerFields = '1.4.7';
+                        thisModule.outputWinner(thisModule.myFieldElements[1], winnerFields);
+                    }
+                    // 3 6 9 | COLUMN 3
+                    if( thisModule.myFieldElements[2] == thisModule.myFieldElements[5] && 
+                        thisModule.myFieldElements[2] == thisModule.myFieldElements[8] && 
+                        typeof thisModule.myFieldElements[2] != 'undefined' && 
+                        typeof thisModule.myFieldElements[5] != 'undefined' && 
+                        typeof thisModule.myFieldElements[8] != 'undefined' && 
+                        gotState == false){
+
+                        gotState = true;
+                        winnerFields = '2.5.8';
+                        thisModule.outputWinner(thisModule.myFieldElements[2], winnerFields);
+                    }
+
+
+
+                    // 1 5 9 CROSS
+                    if( thisModule.myFieldElements[0] == thisModule.myFieldElements[4] && 
+                        thisModule.myFieldElements[0] == thisModule.myFieldElements[8] && 
+                        typeof thisModule.myFieldElements[0] != 'undefined' && 
+                        typeof thisModule.myFieldElements[4] != 'undefined' && 
+                        typeof thisModule.myFieldElements[8] != 'undefined' && 
+                        gotState == false){
+
+                        gotState = true;
+                        winnerFields = '0.4.8';
+                        thisModule.outputWinner(thisModule.myFieldElements[0], winnerFields);
+                    }
+                    // 3 5 7 CROSS
+                    if( thisModule.myFieldElements[2] == thisModule.myFieldElements[4] && 
+                        thisModule.myFieldElements[2] == thisModule.myFieldElements[6] && 
+                        typeof thisModule.myFieldElements[2] != 'undefined' && 
+                        typeof thisModule.myFieldElements[4] != 'undefined' && 
+                        typeof thisModule.myFieldElements[6] != 'undefined' && 
+                        gotState == false){
+
+                        gotState = true;
+                        winnerFields = '2.4.6';
+                        thisModule.outputWinner(thisModule.myFieldElements[2], winnerFields);
+                    }
+                }
+            },
+            writeGUI: function(){
+                const thisModule = this;
+
+                for (let i=0; i<9; i++){
+                    
+                    let singleFieldGUI = document.createElement('div');
+                    singleFieldGUI.className = 'singleField';
+                    
+                    singleFieldGUI.addEventListener('click', function(){
+                        
+                        thisModule.counter++;
+                        
+                        if (thisModule.counter%2 == 0){ // Every second click should be same color
+                            singleFieldGUI.className = 'singleField markedRed';
+                            thisModule.myFieldElements[i] = 'markedRed';
+                        } else {
+                            singleFieldGUI.className = 'singleField markedBlue';
+                            thisModule.myFieldElements[i] = 'markedBlue';
+                        }
+
+                        singleFieldGUI.id = 'markedId_' + i; // Needed for later for finding the winner-fields
+
+                        thisModule.checkGameState();
+                    });
+
+                    document.getElementById('gameArea').appendChild(singleFieldGUI);
+                }
+            },
+            start: function(){
+                this.writeGUI();
+            }
+        };
+
+        TicTacToe.start();
+
+
+
+
+
+    </script>
+
+
+
+</body>
+</html>
