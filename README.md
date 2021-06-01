@@ -8,3 +8,6 @@ Still, the code is pretty bloated and could be refactored
 to safely save a few lines of code. But there are other priorities these days.
 
 
+![whatItLooksLike](https://user-images.githubusercontent.com/85163640/120364207-3d938000-c30d-11eb-96a5-759c5549f17c.jpg)
+
+
